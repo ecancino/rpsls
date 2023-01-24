@@ -1,13 +1,20 @@
-from dataclasses import dataclass
-from choices import Choices
+from enum import Enum, auto
 
-Outcome = tuple[bool, str]
+emoji = {
+    'Rock': '🪨',
+    'Paper': '📃',
+    'Scissor': '✂️',
+    'Lizard': '🦎',
+    'Spock': '🖖'
+}
 
 
-@dataclass
-class Choice():
-    choice: Choices
-    rules: dict[Choices, Outcome]
+class Choice(Enum):
+    Rock = auto()
+    Paper = auto()
+    Scissor = auto()
+    Spock = auto()
+    Lizard = auto()
 
-    def get_outcome(self, choice: Choices) -> Outcome:
-        return self.rules[choice]
+    def __str__(self) -> str:
+        return self.name

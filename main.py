@@ -1,7 +1,6 @@
 from game import game
 from scoreboard import Scoreboard
-from setup import play_music
-from ui import display_welcome
+from ui import display_welcome, play_music
 
 
 def main() -> None:

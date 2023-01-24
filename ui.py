@@ -1,14 +1,23 @@
-from itertools import repeat
-from choices import Choices
-from messages import messages
+from playsound import playsound
+from choice import Choice
+from setup import RULES
+
+
+def create_message(choiceA: Choice, choiceB: Choice):
+    return f"{choiceA} {RULES[(choiceA, choiceB)]} {choiceB}"
+
+
+def play_music():
+    playsound('The_Big_Bang_Theory_Theme_Song.mp3', block=False)
 
 
 def print_line() -> None:
     print('#' * 50, end='\n')
 
 
-def diplay_winner(player_name: str) -> None:
+def diplay_winner(player_name: str, message: str) -> None:
     print(f"{player_name} wins!")
+    print(message)
 
 
 def display_tie() -> None:
@@ -25,19 +34,9 @@ def display_welcome() -> None:
     print("Welcome to the game!")
     print("Rock, Paper, Scissor, Lizard, Spock by Sam Kass")
     print_line()
-
     print("Rules are very simple:")
-    print(messages['scissor_vs_paper'], end=", ")
-    print(messages['paper_vs_rock'], end=", ")
-    print(messages['rock_vs_lizard'], end=", ")
-    print(messages['lizard_vs_spock'], end=", ")
-    print(messages['spock_vs_scissor'], end=", ")
-    print(messages['scissor_vs_lizard'], end=", ")
-    print(messages['lizard_vs_paper'], end=", ")
-    print(messages['paper_vs_spock'], end=", ")
-    print(messages['spock_vs_rock'], end=", ")
-    print("and, as it always has:", end=" ")
-    print(messages['rock_vs_scissor'], end="\n")
+    for winner, loser in RULES:
+        print(create_message(winner, loser))
     print_line()
 
 
@@ -50,13 +49,13 @@ def display_retry_choice(option: str) -> None:
     print(f"Option '{option}' is not a valid choice.")
 
 
-def read_user_choice() -> Choices:
+def read_user_choice() -> Choice:
     print(
-        f"Input your selection: {Choices.Rock}, {Choices.Paper}, {Choices.Scissor}, {Choices.Lizard} or {Choices.Spock}:", end=" ")
+        f"Input your selection: {Choice.Rock}, {Choice.Paper}, {Choice.Scissor}, {Choice.Lizard} or {Choice.Spock}:", end=" ")
     _ = input().strip().capitalize()
 
     try:
-        return Choices[_]
+        return Choice[_]
     except KeyError:
         display_retry_choice(_)
         return read_user_choice()
@@ -78,5 +77,5 @@ def display_scores(scores: tuple[str, int]) -> None:
     print_line()
 
 
-def display_versus(user_choice: Choices, computer_choice: Choices) -> None:
+def display_versus(user_choice: Choice, computer_choice: Choice) -> None:
     print(f"{user_choice} vs. {computer_choice}")
